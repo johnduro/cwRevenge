@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/14 18:33:04 by mle-roy           #+#    #+#             */
-/*   Updated: 2015/04/14 20:20:12 by mle-roy          ###   ########.fr       */
+/*   Updated: 2015/04/15 17:55:51 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,21 @@ t_asm			*initAsm(int fd)
 	if ((new = (t_asm *)malloc(sizeof(*new))) == NULL)
 		ft_exit("fail to malloc", 3);
 	new->fd = fd;
-	new->isError = 0;
+	new->isError = FALSE;
 	new->tokens = NULL;
 	new->errors = NULL;
 	new->name[0] = 0;
-	new->isName = 0;
+	new->isName = FALSE;
 	new->comment[0] = 0;
-	new->isComment = 0;
+	new->isComment = FALSE;
 	return (new);
+}
+
+void			freeToken(t_token *ptr)
+{
+	if (ptr->token)
+		free(ptr->token);
+	free(ptr);
 }
 
 void			freeTokens(t_token *tokens)
@@ -38,9 +45,7 @@ void			freeTokens(t_token *tokens)
 	while (tokens)
 	{
 		ptr = tokens->next;
-		if (tokens->token)
-			free(tokens->token);
-		free(tokens);
+		freeToken(tokens);
 		tokens = ptr;
 	}
 }

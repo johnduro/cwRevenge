@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/14 19:38:20 by mle-roy           #+#    #+#             */
-/*   Updated: 2015/04/14 20:23:29 by mle-roy          ###   ########.fr       */
+/*   Updated: 2015/04/15 17:01:19 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_token			*initToken(char *line, int nbLine)
 	new->line = nbLine;
 	new->token = line;
 	new->arg = NULL;
-	new->isArg = 0;
+	new->isArg = FALSE;
+	new->isLabel = FALSE;
 	new->next = NULL;
 	return (new);
 }
@@ -70,7 +71,7 @@ void			printDebug(t_asm *asM) //debug
 	ptrTok = asM->tokens;
 	while (ptrTok)
 	{
-		printf("> token [%d] :\ntoken : %s\narg : %s", ptrTok->line, ptrTok->token, ptrTok->arg);
+		printf("> token [%d] :\ntoken : %s\narg : %s\nisLabel : %d\n\n", ptrTok->line, ptrTok->token, ptrTok->arg, ptrTok->isLabel);
 		ptrTok = ptrTok->next;
 	}
 	printf("<<<<<<<<<<<<<<<<<<<\n");
@@ -88,5 +89,7 @@ void			printDebug(t_asm *asM) //debug
 void			treatFile(t_asm *asM)
 {
 	getTokens(asM);
+//	printDebug(asM);
+	cleanTokens(asM);
 	printDebug(asM);
 }

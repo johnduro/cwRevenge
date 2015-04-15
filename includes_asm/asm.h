@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/14 18:22:35 by mle-roy           #+#    #+#             */
-/*   Updated: 2015/04/14 20:20:41 by mle-roy          ###   ########.fr       */
+/*   Updated: 2015/04/15 18:24:36 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # define USAGE "Usage : ./asm <file> [<file> ...]"
 # define USAGE_LEN 33
+# define TRUE 1
+# define FALSE 0
 
 #include <stdlib.h>
 #include "op.h"
@@ -29,6 +31,7 @@ struct					s_token
 	char				*token;
 	char				*arg;
 	t_bool				isArg;
+	t_bool				isLabel;
 	t_token				*next;
 };
 
@@ -53,5 +56,10 @@ typedef struct			s_asm
 
 void					compileFile(char *arg);
 void					treatFile(t_asm *asM);
+void					cleanTokens(t_asm *asM);
+void					findLabels(t_asm *asM);
+t_token					*initToken(char *line, int nbLine);
+void					freeToken(t_token *ptr);
+void					addError(const char *error, int line, t_asm *asM);
 
 #endif
