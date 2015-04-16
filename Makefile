@@ -19,7 +19,7 @@ OBJ_DIR				=		objs
 
 COMPILER			=		gcc
 CFLAGS				=		-g3 -Wall -Wextra -Werror -c \
-							-I$(INCLUDE_DIR) -I libft/includes
+							-I $(INCLUDE_DIR) -I libft/includes
 LFLAGS				=		-o
 
 SRC					=		main.c		\
@@ -38,7 +38,7 @@ build:
 	@make -C libft
 
 $(NAME): $(OBJ)
-	$(COMPILER) -L libft -lft $(LFLAGS) $@ $^
+	$(COMPILER) $(LFLAGS) $@ $^ -L libft -lft
 
 $(OBJ): | $(OBJ_DIR)
 

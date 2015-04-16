@@ -18,6 +18,8 @@
 # define TRUE 1
 # define FALSE 0
 
+#include <stdio.h> //DEBUG
+
 #include <stdlib.h>
 #include "op.h"
 
@@ -45,6 +47,7 @@ struct					s_error
 typedef struct			s_asm
 {
 	int					fd;
+	char				*fileName;
 	t_token				*tokens;
 	t_error				*errors;
 	t_bool				isError;

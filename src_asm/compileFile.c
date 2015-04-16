@@ -14,13 +14,20 @@
 #include "asm.h"
 #include "libft.h"
 
-t_asm			*initAsm(int fd)
+#include <stdio.h>
+
+t_asm			*initAsm(int fd, char *arg, char *ptr)
 {
 	t_asm		*new;
 
 	if ((new = (t_asm *)malloc(sizeof(*new))) == NULL)
 		ft_exit("fail to malloc", 3);
 	new->fd = fd;
+	/* printf("???? > %d\n", (int)(ptr - arg)); */
+	new->fileName = ft_strsub(arg, 0, (size_t)(ptr - arg));
+	/* write(1, "ICICIIC\n", 8); */
+	/* write(1, new->fileName, ft_strlen(new->fileName)); */
+	/* write(1, "2CICIIC\n", 8); */
 	new->isError = FALSE;
 	new->tokens = NULL;
 	new->errors = NULL;
@@ -92,7 +99,11 @@ void			compileFile(char *arg)
 		ft_putendl(arg);
 		return ;
 	}
-	asM = initAsm(fd);
+	/* printf("ici\n"); */
+	asM = initAsm(fd, arg, ptr);
+	/* printf("la\n"); */
 	treatFile(asM);
+	/* printf("yo\n"); */
 	freeAsm(asM);
+	/* printf("yolol\n"); */
 }

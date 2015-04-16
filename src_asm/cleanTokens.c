@@ -13,6 +13,8 @@
 #include "asm.h"
 #include "libft.h"
 
+#include <stdio.h> //debug
+
 void					removeComment(t_asm *asM)
 {
 	t_token				*ptr;
@@ -41,11 +43,19 @@ void					trimSpace(t_token *token)
 	len = ft_strlen(token->token);
 	end = len;
 	start = 0;
-	while (end >= 0 && ft_isspace((token->token)[end]))
+	/* printf("IN TS token : >%s<\n", token->token); */
+	/* printf("END : %d\nISSPACE : %d\nVAL : %d\n", end, ft_isspace((token->token)[end]), (int)(token->token)[end]); */
+	while ((end - 1) >= 0 && ft_isspace((token->token)[end - 1]))
 		end--;
+	/* while (end >= 0 && ((token->token)[end] == 0 || ft_isspace((token->token)[end]))) */
+	/* 	end--; */
+	if (end < 0)
+		end = 0;
+	/* printf("END2 : %d\n", end); */
 	(token->token)[end] = 0;
 	while (start < end && ft_isspace((token->token)[start]))
 		start++;
+	/* printf("START : %d\n", start); */
 	if (start != 0 && (len - start) > 0)
 		ft_memmove(token->token, &((token->token)[start]), (len - start) + 1);
 }
@@ -75,8 +85,10 @@ void					removeEmptyTokens(t_asm *asM)
 	{
 		isPrev = TRUE;
 		keep = ptr->next;
+		/* printf("remove token ? : >%s<\n", ptr->token); */
 		if (!ft_strlen(ptr->token))
 		{
+			/* printf("YES\n"); */
 			if (prev == NULL)
 				asM->tokens = ptr->next;
 			else
@@ -116,19 +128,31 @@ void					findArgs(t_asm *asM)
 	t_token				*ptr;
 
 	ptr = asM->tokens;
+	/* printf("IN FA\n"); */
 	while (ptr)
 	{
+		/* printf("LOOP FA\n"); */
+		/* printf("token[%d] : >%s<\n", ptr->line, ptr->token); */
 		if (ptr->isLabel == FALSE)
+		{
+			/* printf("NO LABEL\n"); */
 			getArgs(asM, ptr);
+		}
 		ptr = ptr->next;
 	}
 }
 
 void					cleanTokens(t_asm *asM)
 {
+	/* printf("CT1\n"); */
 	removeComment(asM);
+	/* printf("CT2\n"); */
 	removeSpace(asM);
+	/* printf("CT3\n"); */
 	findLabels(asM);
+	/* printf("CT4\n"); */
 	removeEmptyTokens(asM);
+	/* printf("CT5\n"); */
 	findArgs(asM);
+	/* printf("CT6\n"); */
 }

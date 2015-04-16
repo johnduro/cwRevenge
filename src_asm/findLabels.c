@@ -48,8 +48,10 @@ void					findLabels(t_asm *asM)
 	char				*label;
 
 	ptr = asM->tokens;
+	/* printf("IN FL\n"); */
 	while (ptr)
 	{
+		/* printf("IN LOOP\n"); */
 		if ((label = ft_strchr(ptr->token, LABEL_CHAR)) != NULL)
 			checkLabel(ptr, label);
 		ptr = ptr->next;

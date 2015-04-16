@@ -66,21 +66,24 @@ void			printDebug(t_asm *asM) //debug
 	t_error		*ptrErr;
 
 	printf("**** DEBUG ****\n");
-	printf("FD : %d\nNAME : %s\nCOMMENT : %s\n", asM->fd, asM->name, asM->comment);
+	printf("FILE : >%s<\nFD : %d\nNAME : %s\nCOMMENT : %s\n", asM->fileName, asM->fd, asM->name, asM->comment);
 	printf(">> TOKENS : \n");
 	ptrTok = asM->tokens;
 	while (ptrTok)
 	{
-		printf("> token [%d] :\ntoken : %s\narg : %s\nisLabel : %d\n\n", ptrTok->line, ptrTok->token, ptrTok->arg, ptrTok->isLabel);
+		printf("> token [%d] :\ntoken : >%s<\narg : >%s<\nisLabel : %d\n\n", ptrTok->line, ptrTok->token, ptrTok->arg, ptrTok->isLabel);
 		ptrTok = ptrTok->next;
 	}
 	printf("<<<<<<<<<<<<<<<<<<<\n");
 	ptrErr = asM->errors;
 	printf(">> ERRORS : \n");
-	while (ptrErr)
+	if (asM->isError)
 	{
-		printf("> error [%d] : %s\n", ptrErr->line, ptrErr->error);
-		ptrErr = ptrErr->next;
+		while (ptrErr)
+		{
+			printf("> error [%d] : %s\n", ptrErr->line, ptrErr->error);
+			ptrErr = ptrErr->next;
+		}
 	}
 	printf("<<<<<<<<<<<<<<<<<<<\n");
 	printf("************\n");
@@ -88,8 +91,12 @@ void			printDebug(t_asm *asM) //debug
 
 void			treatFile(t_asm *asM)
 {
+	/* printf("TF1\n");; */
 	getTokens(asM);
+	/* printf("TF2\n");; */
 //	printDebug(asM);
 	cleanTokens(asM);
+	/* printf("TF3\n");; */
 	printDebug(asM);
+	/* printf("TF4\n");; */
 }
