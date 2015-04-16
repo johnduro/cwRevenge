@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2015/04/14 18:48:29 by mle-roy          ###   ########.fr       */
+/*   Updated: 2015/04/16 16:13:12 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,3 +74,15 @@ typedef struct					header_s
 	unsigned int				prog_size;
 	char						comment[COMMENT_LENGTH + 1];
 }								header_t;
+
+typedef struct					s_op
+{
+	char						*name;
+	int							nbArg;
+	int							argType[3];
+	int							opCode;
+	int							nbCycles;
+	char						*msg;
+	int							octCode;
+	int							directSize;
+}								t_op;

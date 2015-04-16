@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:43:01 by zaz               #+#    #+#             */
-     Updated: 2015/04/15 16:18:26 by mle-roy          ###   ########.fr
+     Updated: 2015/04/16 15:21:46 by mle-roy          ###   ########.fr         
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ T_REG(1) : aff
 
 typedef int(*t_builtin_ptr)(char **, char ***);
 
-typedef structs_builtin
+typedef struct		s_builtin
 {
-	char*name;
-	t_builtin_ptrfn;
-}t_builtin;
+	char			*name;
+	t_builtin_ptr	fn;
+}					t_builtin;
 
 t_builtin*get_builtin(void)
 {
@@ -96,4 +96,3 @@ i <<= 2
 
  1 2 3 4 5 6 7 8 9 0
      ^         ^
-

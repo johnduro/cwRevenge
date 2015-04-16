@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/14 19:38:20 by mle-roy           #+#    #+#             */
-/*   Updated: 2015/04/15 17:01:19 by mle-roy          ###   ########.fr       */
+/*   Updated: 2015/04/16 16:53:10 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,41 @@ void			printDebug(t_asm *asM) //debug
 	printf("************\n");
 }
 
+char			addName(t_token *prev, t_token *ptr, t_asm *asM)
+{
+	//FAIRE LE ADDNAME
+	return (FALSE);
+}
+
+void			getNameAndComment(t_asm *asM)
+{
+	t_token		*ptr;
+	t_token		*prev;
+	t_token		*keep;
+	t_bool		isPrev;
+
+	ptr = asM->tokens;
+	prev = NULL;
+	while (ptr)
+	{
+		isPrev = TRUE;
+		keep = ptr->next;
+		if (!(asM->isName) && ft_strcmp(ptr->token, ".name"))
+		{
+			removeToken(prev, ptr, asM);
+			isPrev = FALSE;
+		}
+		else if (!(asM->isComment) && ft_strcmp(ptr->token, ".comment"))
+		{
+			removeToken(prev, ptr, asM);
+			isPrev = FALSE;
+		}
+		if (isPrev)
+			prev = ptr;
+		ptr = keep;
+	}
+}
+
 void			treatFile(t_asm *asM)
 {
 	/* printf("TF1\n");; */
@@ -97,6 +132,13 @@ void			treatFile(t_asm *asM)
 //	printDebug(asM);
 	cleanTokens(asM);
 	/* printf("TF3\n");; */
+	getNameAndComment(asM);
+	if (!(asM->isError))
+	{
+		parseArgs(asM);
+	}
+	else
+		write(1, "CAN'T COMPILE DAT FILE !!111!!!1!!\n", 35);
 	printDebug(asM);
 	/* printf("TF4\n");; */
 }

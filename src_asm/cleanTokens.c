@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/15 15:08:17 by mle-roy           #+#    #+#             */
-/*   Updated: 2015/04/15 18:28:34 by mle-roy          ###   ########.fr       */
+/*   Updated: 2015/04/16 16:46:26 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,15 @@ void					removeSpace(t_asm *asM)
 	}
 }
 
+void					removeToken(t_token *prev, t_token *ptr, t_asm *asM)
+{
+	if (prev == NULL)
+		asM->tokens = ptr->next;
+	else
+		prev->next = ptr->next;
+	freeToken(ptr);
+}
+
 void					removeEmptyTokens(t_asm *asM)
 {
 	t_token				*ptr;
@@ -88,12 +97,13 @@ void					removeEmptyTokens(t_asm *asM)
 		/* printf("remove token ? : >%s<\n", ptr->token); */
 		if (!ft_strlen(ptr->token))
 		{
+			removeToken(prev, ptr, asM);
 			/* printf("YES\n"); */
-			if (prev == NULL)
-				asM->tokens = ptr->next;
-			else
-				prev->next = ptr->next;
-			freeToken(ptr);
+			/* if (prev == NULL) */
+			/* 	asM->tokens = ptr->next; */
+			/* else */
+			/* 	prev->next = ptr->next; */
+			/* freeToken(ptr); */
 			isPrev = FALSE;
 		}
 		if (isPrev)
@@ -142,6 +152,38 @@ void					findArgs(t_asm *asM)
 	}
 }
 
+/* void					checkLine(char *s, int line, t_asm *asM) */
+/* { */
+/* 	int					i; */
+/* 	char				*tmp; */
+
+/* 	i = 0; */
+/* 	while (s[i]) */
+/* 	{ */
+/* 		if (ft_strchr(AUTH_CHAR, s[i]) == NULL) */
+/* 		{ */
+/* 			tmp = ft_strjoinwsep("Unauthorized char : ", "", s[i]); */
+/* 			addError(tmp, line, asM); */
+/* 		} */
+/* 		i++; */
+/* 	} */
+/* } */
+
+/* void					checkChars(t_asm *asM) */
+/* { */
+/* 	t_token				*ptr; */
+
+/* 	ptr = asM->tokens; */
+/* 	while (ptr) */
+/* 	{ */
+/* 		if (ptr->token) */
+/* 			checkLine(ptr->token, ptr->line, asM); */
+/* 		if (ptr->arg) */
+/* 			checkLine(ptr->arg, ptr->line, asM); */
+/* 		ptr = ptr->next; */
+/* 	} */
+/* } */
+
 void					cleanTokens(t_asm *asM)
 {
 	/* printf("CT1\n"); */
@@ -155,4 +197,5 @@ void					cleanTokens(t_asm *asM)
 	/* printf("CT5\n"); */
 	findArgs(asM);
 	/* printf("CT6\n"); */
+	/* checkChars(asM); */
 }
