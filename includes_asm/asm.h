@@ -64,9 +64,9 @@ typedef struct			s_asm
 	t_token				*tokens;
 	t_error				*errors;
 	t_bool				isError;
-	char				name[PROG_NAME_LENGTH];
+	char				name[PROG_NAME_LENGTH + 1];
 	t_bool				isName;
-	char				comment[COMMENT_LENGTH];
+	char				comment[COMMENT_LENGTH + 1];
 	t_bool				isComment;
 }						t_asm;
 
