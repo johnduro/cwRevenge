@@ -27,7 +27,11 @@ SRC					=		main.c		\
 							treatFile.c \
 							cleanTokens.c \
 							findLabels.c \
-							errorAsm.c
+							errorAsm.c \
+							getQuotedString.c \
+							getNameAndComment.c \
+							checkChars.c \
+							parseArgs.c
 
 OBJ					=		$(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
 

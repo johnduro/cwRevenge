@@ -17,7 +17,7 @@
 # define USAGE_LEN 33
 # define TRUE 1
 # define FALSE 0
-/* # define AUTH_CHAR "abcdefghijklmnopqrstuvwxyz_-0123456789:%," */
+# define AUTH_CHAR "abcdefghijklmnopqrstuvwxyz_-0123456789:%, \t\v\f\r"
 
 
 #include <stdio.h> //DEBUG
@@ -89,6 +89,10 @@ void					freeToken(t_token *ptr);
 void					addError(const char *error, int line, t_asm *asM);
 void					parseArgs(t_asm *asM);
 void					removeToken(t_token *prev, t_token *ptr, t_asm *asM);
+char					*getQuotedString(t_token *ptr, t_asm *asM);
+void					getNameAndComment(t_asm *asM);
+void					checkChars(t_asm *asM);
+void					parseArgs(t_asm *asM);
 
 
 #endif

@@ -24,7 +24,7 @@ t_token			*initToken(char *line, int nbLine)
 	new->line = nbLine;
 	new->token = line;
 	new->arg = NULL;
-	new->isArg = FALSE;
+	/* new->isArg = FALSE; */
 	new->isLabel = FALSE;
 	new->next = NULL;
 	return (new);
@@ -89,135 +89,6 @@ void			printDebug(t_asm *asM) //debug
 	printf("************\n");
 }
 
-char			isQuote(char c)
-{
-	if (c == '\'' || c == '"')
-		return (c);
-	return (0);
-}
-
-int				findLastQuote(char *s, int start, char quote)
-{
-	start++;
-	while (s[start])
-	{
-		if (s[start] == quote)
-			return (start);
-		start++;
-	}
-	return (0);
-}
-
-char			*getQuotedString(t_token *ptr, t_asm *asM)
-{
-	char		*ret;
-	char		quote;
-	int			i;
-	int			start;
-	int			end;
-
-	i = 0;
-	start = 0;
-	end = 0;
-	ret = NULL;
-	while ((ptr->arg)[i])
-	{
-		if ((quote = isQuote((ptr->arg)[i])) != 0)
-		{
-			start = i;
-			end = findLastQuote(ptr->arg, start, quote);
-			break ;
-		}
-		i++;
-	}
-	if (end != 0)
-		ret = ft_strsub(ptr->arg, start, (end - start));
-	return (ret);
-}
-
-char			addName(t_token *prev, t_token *ptr, t_asm *asM)
-{
-	char		*name;
-
-	if ((name = getQuotedString(ptr, asM)) == NULL)
-	{
-		addError("Invalid program name", ptr->line, asM);
-		return (TRUE);
-	}
-	else
-	{
-		if (ft_strlen(name) > PROG_NAME_LENGTH)
-		{
-			addError("Program name too long", ptr->line, asM);
-			free(name);
-			return (TRUE);
-		}
-		else
-		{
-			ft_strcpy(asM->name, name);
-			asM->isName = TRUE;
-			removeToken(prev, ptr, asM);
-		}
-		free(name);
-	}
-	return (FALSE);
-}
-
-char			addComment(t_token *prev, t_token *ptr, t_asm *asM)
-{
-	char		*comment;
-
-	if ((comment = getQuotedString(ptr, asM)) == NULL)
-	{
-		addError("Invalid comment", ptr->line, asM);
-		return (TRUE);
-	}
-	else
-	{
-		if (ft_strlen(comment) > COMMENT_LENGTH)
-		{
-			addError("Program comment too long", ptr->line, asM);
-			free(comment);
-			return (TRUE);
-		}
-		else
-		{
-			ft_strcpy(asM->comment, comment);
-			asM->isComment = TRUE;
-			removeToken(prev, ptr, asM);
-		}
-		free(comment);
-	}
-	return (FALSE);
-}
-
-void			getNameAndComment(t_asm *asM)
-{
-	t_token		*ptr;
-	t_token		*prev;
-	t_token		*keep;
-	t_bool		isPrev;
-
-	ptr = asM->tokens;
-	prev = NULL;
-	while (ptr)
-	{
-		isPrev = TRUE;
-		keep = ptr->next;
-		if (!(asM->isName) && ft_strcmp(ptr->token, ".name"))
-			isPrev = addName(prev, ptr, asM);
-		else if (!(asM->isComment) && ft_strcmp(ptr->token, ".comment"))
-			isPrev = addComment(prev, ptr, asM);
-		if (isPrev)
-			prev = ptr;
-		ptr = keep;
-	}
-	if (!(asM->isName))
-		addError("Program name is missing", 0, asM);
-	if (!(asM->isComment))
-		addError("Program comment is missing", 0, asM);
-}
-
 void			treatFile(t_asm *asM)
 {
 	/* printf("TF1\n");; */
@@ -227,6 +98,7 @@ void			treatFile(t_asm *asM)
 	cleanTokens(asM);
 	/* printf("TF3\n");; */
 	getNameAndComment(asM);
+	checkChars(asM);
 	if (!(asM->isError))
 	{
 		parseArgs(asM);
