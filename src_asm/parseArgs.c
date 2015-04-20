@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/16 16:00:10 by mle-roy           #+#    #+#             */
-/*   Updated: 2015/04/16 16:00:57 by mle-roy          ###   ########.fr       */
+/*   Updated: 2015/04/20 18:40:26 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,49 @@ t_op		op_tab[17] =
 	{0, 0, {0}, 0, 0, 0, 0, 0}
 };
 
+int					addArgToList(t_token *ptr, int start, int end)
+{
+	printf("ARG - \n");
+	write(1, &(ptr->arg)[start], end - start);
+	write(1, "\n", 1);
+	return (end - start);
+}
+
+int					getArgList(t_token *ptr)
+{
+	int				ret;
+	int				i;
+	int				start;
+
+	ret = 0;
+	i = 0;
+	start = 0;
+	while ((ptr->arg)[i])
+	{
+		if ((ptr->arg)[i] == SEPARATOR_CHAR)
+		{
+			start += (addArgToList(ptr, start, i) + 1);
+			ret++;
+		}
+		i++;
+	}
+	if (start != i)
+	{
+		addArgToList(ptr, start, i);
+		ret++;
+	}
+	return (ret);
+}
+
 void				addArgs(t_token *ptr, t_op op, t_asm *asM)
 {
 	(void)asM;
+	getArgList(ptr);
 	printf("TOKEN[%d]: [%s][%s]\n", ptr->line, ptr->token, ptr->arg);
 	printf("OP[%d][%s] : [nbArg : %d]\n", op.opCode, op.name, op.nbArg);
+
+	if (getArgList(ptr) != op.nbArg)
+		addError("Wrong argument number", ptr->line, asM);
 }
 
 void				parseArgs(t_asm *asM)
@@ -70,7 +108,7 @@ void				parseArgs(t_asm *asM)
 				i++;
 			}
 			if (i == 16)
-				addError("Could not find instruction", ptr->line, asM);
+				addError("Wrong instruction", ptr->line, asM);
 		}
 		ptr = ptr->next;
 	}

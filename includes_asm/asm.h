@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/14 18:22:35 by mle-roy           #+#    #+#             */
-/*   Updated: 2015/04/16 16:46:17 by mle-roy          ###   ########.fr       */
+/*   Updated: 2015/04/20 17:52:57 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@ struct					s_token
 	char				*arg;
 	/* t_bool				isArg; */
 	t_bool				isLabel;
-	t_arg				*argsList; //??
-	int					nbArg;//??
+	t_arg				*argsList; //?? FAIRE UN FREE SI OUI
+	/* int					nbArg; //?? */
+	int8_t				octCode; //??
 	t_token				*next;
 };
 

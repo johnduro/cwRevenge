@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/14 19:38:20 by mle-roy           #+#    #+#             */
-/*   Updated: 2015/04/16 16:53:10 by mle-roy          ###   ########.fr       */
+/*   Updated: 2015/04/20 18:38:31 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_token			*initToken(char *line, int nbLine)
 	new->arg = NULL;
 	/* new->isArg = FALSE; */
 	new->isLabel = FALSE;
+	new->argsList = NULL;
+	new->octCode = 0;
 	new->next = NULL;
 	return (new);
 }
